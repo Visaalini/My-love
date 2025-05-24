@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Special Memory</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 15px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+    }
+
+    .music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ffccdd;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <img src="pic10.png" alt="Birthday Memory" />
+
+  <!-- Music control -->
+  <button class="music-control" id="toggleBtn">🎵</button>
+
+  <!-- Audio -->
+  <audio id="bg-music" src="song.mp3" preload="auto" loop></audio>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const toggleBtn = document.getElementById("toggleBtn");
+    let isPlaying = false;
+
+    // Auto-play if flag was passed
+    if (localStorage.getItem("playMusic") === "true") {
+      music.play().then(() => {
+        isPlaying = true;
+        toggleBtn.textContent = "🔊";
+      }).catch(() => {
+        // autoplay blocked, user must click to start
+      });
+      localStorage.removeItem("playMusic"); // clear flag
+    }
+
+    // Toggle music button
+    toggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        music.pause();
+        toggleBtn.textContent = "🔇";
+      } else {
+        music.play();
+        toggleBtn.textContent = "🔊";
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+</body>
+</html>
